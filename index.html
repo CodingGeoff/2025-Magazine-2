@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free magazine archive</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(135deg, #c9d8f0 0%, #e0e0e9 100%);
+        padding: 20px;
+        margin: 0;
+        background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      h1 {
+        font-family: "Dancing Script", cursive;
+        font-size: 5rem;
+        font-weight: 800;
+        color: #f9a8d4;
+        margin-bottom: 1rem;
+        text-shadow: 0 4px 8px rgba(249, 168, 212, 0.6);
+        position: relative;
+        animation: fadeInDown 1s ease-out;
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 6px;
+        background: linear-gradient(to right, #f9a8d4, #e91e63);
+        border-radius: 3px;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .search-container {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 20px 30px;
+        font-size: 1.2rem;
+        border: 3px solid #f9a8d4;
+        border-radius: 50px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(249, 168, 212, 0.3);
+        background-color: rgba(255, 255, 255, 0.1);
+        color: black;
+      }
+
+      .search-input:focus {
+        border-color: #e91e63;
+        box-shadow: 0 6px 12px rgba(233, 30, 99, 0.4);
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+        max-width: 1500px;
+        width: 90%;
+      }
+
+      li {
+        perspective: 1000px;
+      }
+
+      .group-container {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 15px;
+        scrollbar-width: thin;
+        scrollbar-color: #f9a8d4 white;
+      }
+
+      .scroll-container {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        min-width: min-content;
+      }
+
+      .group-item {
+        flex: 0 0 auto;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: black;
+        text-decoration: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(249, 168, 212, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+      }
+
+      .group-item:hover {
+        transform: translateY(-15px) scale(1.08) rotateX(15deg);
+        /* 将模糊半径从50px增大到80px，使阴影更圆润 */
+        box-shadow: 0 30px 80px rgba(249, 168, 212, 0.5);
+        background: linear-gradient(to bottom right, #f9a8d4, #e91e63);
+      }
+
+      .group-item:hover.icon {
+        color: white;
+      }
+
+      .group-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 0.8rem 0;
+      }
+
+      .page-indicator {
+        font-size: 1rem;
+        color: #ccc;
+      }
+
+      .group-item:hover.page-indicator {
+        color: white;
+      }
+
+      a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: black;
+        text-decoration: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(249, 168, 212, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+      }
+
+      a::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(45deg);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      a:hover::before {
+        opacity: 1;
+      }
+
+      a:hover {
+        background: linear-gradient(to bottom right, #f9a8d4, #e91e63);
+        box-shadow: 0 30px 50px rgba(249, 168, 212, 0.5);
+      }
+
+      .icon {
+        font-size: 4rem;
+        margin-bottom: 1.2rem;
+        transition: color 0.3s ease;
+        color: #f9a8d4;
+      }
+
+      .title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        text-align: center;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Free Magazine Archive</h1>
+    <div class="search-container">
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Search for a magazine..."
+      />
+    </div>
+    <ul id="pdf-list"></ul>
+
+    <script>
+      function get_file_icon_class(file) {
+        const ext = file.split(".").pop().toLowerCase();
+        switch (ext) {
+          case "pdf":
+            return "fa-solid fa-file-pdf";
+          case "docx":
+            return "fa-solid fa-file-word";
+          case "xlsx":
+            return "fa-solid fa-file-excel";
+          case "pptx":
+            return "fa-solid fa-file-powerpoint";
+          default:
+            return "fa-solid fa-file";
+        }
+      }
+
+      function get_file_icon_color(file) {
+        const ext = file.split(".").pop().toLowerCase();
+        switch (ext) {
+          case "pdf":
+            return "#e74c3c";
+          case "docx":
+            return "#2ecc71";
+          case "xlsx":
+            return "#f1c40f";
+          case "pptx":
+            return "#3498db";
+          default:
+            return "#95a5a6";
+        }
+      }
+
+      const pdfFiles =[];
+
+      function groupFiles(files) {
+        const groups = {};
+        files.forEach((file) => {
+          if (file.includes("§§§§")) {
+            const [prefix] = file.split("§§§§");
+            const baseName = prefix.trim();
+            if (!groups[baseName]) groups[baseName] = [];
+            groups[baseName].push(file);
+          }
+        });
+        return groups;
+      }
+
+      const pdfList = document.getElementById("pdf-list");
+      const searchInput = document.getElementById("search-input");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      searchInput.value = urlParams.get("search") || "";
+
+      function filterAndDisplayPDFs(query) {
+        pdfList.innerHTML = "";
+        const filteredFiles = pdfFiles.filter((file) =>
+          file.toLowerCase().includes(query.toLowerCase())
+        );
+
+        const groups = groupFiles(filteredFiles);
+        Object.entries(groups).forEach(([baseName, files]) => {
+          const sortedFiles = files.sort((a, b) => {
+            const numA = parseInt(a.split("§§§§")[1].replace(".pdf", ""));
+            const numB = parseInt(b.split("§§§§")[1].replace(".pdf", ""));
+            return numA - numB;
+          });
+
+          const listItem = document.createElement("li");
+          const groupContainer = document.createElement("div");
+          groupContainer.className = "group-container";
+
+          const scrollContainer = document.createElement("div");
+          scrollContainer.className = "scroll-container";
+
+          sortedFiles.forEach((file, index) => {
+            const link = document.createElement("a");
+            link.className = "group-item";
+            link.href = `./static/uploads/${file}`;
+            link.target = "_blank";
+
+            const icon = document.createElement("i");
+            icon.className = `icon ${get_file_icon_class(file)}`;
+            icon.style.color = get_file_icon_color(file);
+
+            const title = document.createElement("span");
+            title.className = "group-title";
+            title.textContent = baseName;
+
+            const pageIndicator = document.createElement("span");
+            pageIndicator.className = "page-indicator";
+            pageIndicator.textContent = `${index + 1}/${sortedFiles.length}`;
+
+            link.appendChild(icon);
+            link.appendChild(title);
+            link.appendChild(pageIndicator);
+            scrollContainer.appendChild(link);
+          });
+
+          groupContainer.appendChild(scrollContainer);
+          listItem.appendChild(groupContainer);
+          pdfList.appendChild(listItem);
+        });
+
+        filteredFiles
+          .filter((file) => !file.includes("§§§§"))
+          .forEach((file) => {
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = `./static/uploads/${file}`;
+            link.target = "_blank";
+
+            const icon = document.createElement("i");
+            icon.className = `icon ${get_file_icon_class(file)}`;
+            icon.style.color = get_file_icon_color(file);
+
+            const title = document.createElement("span");
+            title.className = "title";
+            title.textContent = file;
+
+            link.appendChild(icon);
+            link.appendChild(title);
+            listItem.appendChild(link);
+            pdfList.appendChild(listItem);
+          });
+      }
+
+      filterAndDisplayPDFs(searchInput.value);
+
+      searchInput.addEventListener("input", (e) => {
+        filterAndDisplayPDFs(e.target.value);
+      });
+    </script>
+  </body>
+</html>
