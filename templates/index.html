@@ -303,7 +303,7 @@
             <a href="#" class="pdf-link" data-files="{{ files | join(',') }}" data-base="{{ base_name }}"
                 data-file-count="{{ files | length }} part{{ '' if files | length == 1 else 's' }}">
                 <i class="{{ get_file_icon_class(files[0]) }} icon"
-                    style="color: {{ get_file_icon_color(files[0]) }};"></i>
+                    @style="color: {{ get_file_icon_color(files[0]) }}"></i>
                 <span class="title">{{ base_name }}</span>
             </a>
         </li>
@@ -356,7 +356,7 @@
                             try {
                                 const pdfUrl = "{{ url_for('static', filename='uploads/') }}" + file;
                                 const response = await fetch(pdfUrl);
-                                
+
 
                                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
